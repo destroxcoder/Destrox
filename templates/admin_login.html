@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Administrador - Ingresar{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="h5 mb-3">Panel de administrador</h2>
+        <form method="post">
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

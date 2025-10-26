@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Destrox - Catálogo{% endblock %}
+{% block content %}
+  <div class="text-center mb-4">
+    <h1 class="display-5">Servicios disponibles</h1>
+    <p class="lead">Elige tu plataforma favorita y sigue los pasos para obtener tus accesos.</p>
+  </div>
+  {% if catalog %}
+    <div class="row g-4">
+      {% for service in catalog %}
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">{{ service }}</h5>
+              <p class="card-text flex-grow-1">Cuenta premium lista para usar. Pago seguro por Yape, Plin o transferencia.</p>
+              <a class="btn btn-primary mt-auto" href="{{ url_for('buy_service', service=service) }}">Comprar</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">Aún no hay servicios publicados. Vuelve pronto.</div>
+  {% endif %}
+{% endblock %}

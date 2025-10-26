@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Pagar {{ service }} - Destrox{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="h4">¡Hola {{ client.name }}!</h2>
+        <p class="mb-3">Para completar tu pedido de <strong>{{ service }}</strong>, realiza el pago y luego confirma tu operación.</p>
+        <div class="row g-3">
+          <div class="col-md-6 text-center">
+            <img src="{{ payment_qr }}" alt="Código QR" class="img-fluid rounded border">
+            <p class="mt-2 small text-muted">Escanea el código con Yape o Plin.</p>
+          </div>
+          <div class="col-md-6">
+            <h3 class="h6">Cuentas bancarias</h3>
+            <ul class="list-group mb-3">
+              {% for account in payment_accounts %}
+                <li class="list-group-item">{{ account }}</li>
+              {% endfor %}
+            </ul>
+            <p class="small text-muted">{{ payment_instructions }}</p>
+          </div>
+        </div>
+        <hr>
+        <form method="post">
+          <div class="mb-3">
+            <label for="reference" class="form-label">Número de operación o notas (opcional)</label>
+            <input type="text" class="form-control" id="reference" name="reference" placeholder="Ej. 123456 / Pago por app">
+          </div>
+          <button type="submit" class="btn btn-success">Ya pagué</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

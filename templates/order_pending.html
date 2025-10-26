@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Pedido recibido - Destrox{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow-sm text-center">
+      <div class="card-body p-5">
+        <h2 class="h4 mb-3">¡Gracias!</h2>
+        <p>Recibimos tu comprobante y estamos verificando el pago.</p>
+        <p class="text-muted">Apenas confirmemos, tu cuenta aparecerá en <strong>Mis Cuentas</strong>.</p>
+        <a class="btn btn-primary" href="{{ url_for('my_accounts') }}">Ir a Mis Cuentas</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

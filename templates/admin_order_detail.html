@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Asignar cuenta - Destrox{% endblock %}
+{% block content %}
+  <h2 class="h4 mb-3">Verificar pago</h2>
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h3 class="h5">Pedido #{{ sale.id }}</h3>
+      <p><strong>Cliente:</strong> {{ sale.client.name }} ({{ sale.client.phone }})</p>
+      <p><strong>Servicio:</strong> {{ sale.service }}</p>
+      <p><strong>Referencia:</strong> {{ sale.payment_reference or 'Sin datos' }}</p>
+      <p><strong>Fecha:</strong> {{ sale.created_at.strftime('%d/%m/%Y %H:%M') }}</p>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h3 class="h5 mb-3">Asignar cuenta disponible</h3>
+      {% if available_accounts %}
+        <form method="post">
+          <div class="mb-3">
+            <label for="account_id" class="form-label">Selecciona una cuenta</label>
+            <select class="form-select" id="account_id" name="account_id" required>
+              <option value="" selected disabled>Selecciona una cuenta</option>
+              {% for account in available_accounts %}
+                <option value="{{ account.id }}">{{ account.email }} - Perfil {{ account.profile or 'N/A' }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success">Asignar cuenta</button>
+          <a class="btn btn-outline-secondary" href="{{ url_for('admin_orders') }}">Cancelar</a>
+        </form>
+      {% else %}
+        <div class="alert alert-warning">No hay cuentas disponibles para este servicio. Agrega más en el almacén.</div>
+        <a class="btn btn-primary" href="{{ url_for('admin_stock') }}">Ir al almacén</a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Destrox{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Destrox</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('my_accounts') }}">Mis Cuentas</a></li>
+            {% if session.get('client_id') %}
+              <li class="nav-item"><a class="nav-link" href="{{ url_for('client_logout') }}">Salir</a></li>
+            {% else %}
+              <li class="nav-item"><a class="nav-link" href="{{ url_for('client_login') }}">Ingresar</a></li>
+            {% endif %}
+            {% if session.get('is_admin') %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">Panel</a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminMenu">
+                  <li><a class="dropdown-item" href="{{ url_for('admin_orders') }}">Pedidos</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('admin_stock') }}">Almacén</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('admin_expirations') }}">Vencimientos</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{{ url_for('admin_logout') }}">Cerrar sesión</a></li>
+                </ul>
+              </li>
+            {% else %}
+              <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_login') }}">Administrador</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="py-4">
+      <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+
+    <a class="whatsapp-button" href="https://wa.me/{{ whatsapp_number }}" target="_blank" rel="noopener">
+      <span class="visually-hidden">WhatsApp</span>
+      💬
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

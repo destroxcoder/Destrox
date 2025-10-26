@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Mis Cuentas - Destrox{% endblock %}
+{% block content %}
+  <h2 class="h4 mb-4">Mis cuentas activas</h2>
+  {% if sales %}
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead>
+          <tr>
+            <th>Servicio</th>
+            <th>Email</th>
+            <th>Clave</th>
+            <th>Perfil</th>
+            <th>Vence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sale in sales %}
+            <tr>
+              <td>{{ sale.stock.service }}</td>
+              <td><code>{{ sale.stock.email }}</code></td>
+              <td><code>{{ sale.stock.password }}</code></td>
+              <td>{{ sale.stock.profile or '-' }}</td>
+              <td>
+                {% if sale.end_date %}
+                  {{ sale.end_date.strftime('%d/%m/%Y') }}
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info">Aún no tienes cuentas asignadas. Vuelve en unos minutos.</div>
+  {% endif %}
+{% endblock %}
