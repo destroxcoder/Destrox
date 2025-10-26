@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Pedidos pendientes - Destrox{% endblock %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="h4">Pedidos pendientes</h2>
+    <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('admin_expirations') }}">Ver vencimientos</a>
+  </div>
+  {% if orders %}
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Celular</th>
+            <th>Servicio</th>
+            <th>Referencia</th>
+            <th>Fecha</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+            <tr>
+              <td>{{ order.client.name }}</td>
+              <td>{{ order.client.phone }}</td>
+              <td>{{ order.service }}</td>
+              <td>{{ order.payment_reference or '-' }}</td>
+              <td>{{ order.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+              <td class="text-end">
+                <a class="btn btn-sm btn-primary" href="{{ url_for('admin_order_detail', sale_id=order.id) }}">Verificar y asignar</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-success">No hay pedidos pendientes. ¡Todo al día!</div>
+  {% endif %}
+{% endblock %}

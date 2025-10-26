@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}Almacén de cuentas - Destrox{% endblock %}
+{% block content %}
+  <h2 class="h4 mb-4">Almacén de cuentas</h2>
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="h5 mb-3">Agregar cuenta</h3>
+          <form method="post">
+            <div class="mb-3">
+              <label for="service" class="form-label">Servicio</label>
+              <input type="text" class="form-control" id="service" name="service" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Clave</label>
+              <input type="text" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="mb-3">
+              <label for="profile" class="form-label">Perfil</label>
+              <input type="text" class="form-control" id="profile" name="profile" placeholder="Ej. Perfil 1">
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="h5 mb-3">Inventario</h3>
+          {% if accounts %}
+            <div class="table-responsive">
+              <table class="table table-striped align-middle">
+                <thead>
+                  <tr>
+                    <th>Servicio</th>
+                    <th>Correo</th>
+                    <th>Perfil</th>
+                    <th>Estado</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for account in accounts %}
+                    <tr>
+                      <td>{{ account.service }}</td>
+                      <td><code>{{ account.email }}</code></td>
+                      <td>{{ account.profile or '-' }}</td>
+                      <td><span class="badge bg-{{ 'success' if account.status == 'Disponible' else 'secondary' }}">{{ account.status }}</span></td>
+                      <td class="text-end">
+                        <a class="btn btn-sm btn-outline-primary" href="{{ url_for('admin_edit_stock', account_id=account.id) }}">Editar</a>
+                        <form class="d-inline" method="post" action="{{ url_for('admin_delete_stock', account_id=account.id) }}" onsubmit="return confirm('¿Eliminar esta cuenta?');">
+                          <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                        </form>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <div class="alert alert-info mb-0">Todavía no has agregado cuentas.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

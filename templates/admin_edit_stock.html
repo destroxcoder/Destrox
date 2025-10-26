@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Editar cuenta - Destrox{% endblock %}
+{% block content %}
+  <h2 class="h4 mb-3">Editar cuenta</h2>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <form method="post">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="service" class="form-label">Servicio</label>
+            <input type="text" class="form-control" id="service" name="service" value="{{ account.service }}" required>
+          </div>
+          <div class="col-md-6">
+            <label for="profile" class="form-label">Perfil</label>
+            <input type="text" class="form-control" id="profile" name="profile" value="{{ account.profile }}">
+          </div>
+          <div class="col-md-6">
+            <label for="email" class="form-label">Correo</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ account.email }}" required>
+          </div>
+          <div class="col-md-6">
+            <label for="password" class="form-label">Clave</label>
+            <input type="text" class="form-control" id="password" name="password" value="{{ account.password }}" required>
+          </div>
+          <div class="col-md-6">
+            <label for="status" class="form-label">Estado</label>
+            <select class="form-select" id="status" name="status">
+              <option value="Disponible" {% if account.status == 'Disponible' %}selected{% endif %}>Disponible</option>
+              <option value="Asignada" {% if account.status == 'Asignada' %}selected{% endif %}>Asignada</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label for="notes" class="form-label">Notas internas</label>
+            <textarea class="form-control" id="notes" name="notes" rows="3">{{ account.notes }}</textarea>
+          </div>
+        </div>
+        <div class="mt-4">
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+          <a class="btn btn-outline-secondary" href="{{ url_for('admin_stock') }}">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

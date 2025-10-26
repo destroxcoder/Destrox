@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Cuentas por vencer - Destrox{% endblock %}
+{% block content %}
+  <h2 class="h4 mb-3">Cuentas por vencer</h2>
+  <p class="text-muted">Clientes con vencimiento pasado o dentro de los próximos 3 días.</p>
+  {% if sales %}
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Celular</th>
+            <th>Servicio</th>
+            <th>Vence</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sale in sales %}
+            <tr>
+              <td>{{ sale.client.name }}</td>
+              <td>{{ sale.client.phone }}</td>
+              <td>{{ sale.service }}</td>
+              <td>{{ sale.end_date.strftime('%d/%m/%Y') if sale.end_date else '-' }}</td>
+              <td>
+                <a class="btn btn-sm btn-success" target="_blank" rel="noopener" href="https://wa.me/51{{ sale.client.phone }}?text=Hola%20{{ sale.client.name | replace(' ', '%20') }},%20te%20escribo%20para%20recordarte%20que%20tu%20cuenta%20de%20{{ sale.service | replace(' ', '%20') }}%20vence%20el%20{{ sale.end_date.strftime('%d/%m/%Y') if sale.end_date else '' }}.%20%C2%BFDeseas%20renovar?">Enviar recordatorio</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-success">No tienes cuentas por vencer en los próximos días.</div>
+  {% endif %}
+{% endblock %}
